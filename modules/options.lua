@@ -3709,7 +3709,7 @@ function LunaUF:CreateOptionsMenu()
 
     LunaOptionsFrame.pages[page].whitelistHeader = LunaOptionsFrame.pages[page]:CreateFontString(nil, "OVERLAY",
         "GameFontHighlight")
-    LunaOptionsFrame.pages[page].whitelistHeader:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].recksizeslider,
+    LunaOptionsFrame.pages[page].whitelistHeader:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].reckheader,
         "BOTTOMLEFT", 0,
         -60)
     LunaOptionsFrame.pages[page].whitelistHeader:SetHeight(24)

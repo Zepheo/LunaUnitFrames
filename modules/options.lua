@@ -3734,7 +3734,7 @@ function LunaUF:CreateOptionsMenu()
             end
         end
     end)
-    getglobal("EnableWhitelist"):SetText(L["Enable"])
+    getglobal("EnableWhitelistText"):SetText(L["Enable"])
 
     LunaOptionsFrame.pages[page].whitelistBuffsInput = CreateFrame("Editbox", "whitelistBuffsInput" .. page,
         LunaOptionsFrame.pages[page], "InputBoxTemplate")

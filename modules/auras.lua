@@ -138,7 +138,7 @@ function Auras:OnEnable(frame)
         frame.auras.debuffbuttons.buttons = {}
         for i = 1, (isPlayer and 34 or 32) do
             local button = CreateFrame("Button", "Luna" ..
-            firstToUpper(frame.trueunit or frame:GetName()) .. "BuffFrame" .. i, frame.auras)
+                firstToUpper(frame.trueunit or frame:GetName()) .. "BuffFrame" .. i, frame.auras)
             button:SetScript("OnEnter", showTooltip)
             button:SetScript("OnLeave", hideTooltip)
             if isPlayer then
@@ -220,7 +220,7 @@ function Auras:OnEnable(frame)
             button.border:Show()
         else
             button.border:SetTexture("Interface\\AddOns\\LunaUnitFrames\\media\\textures\\borders\\border-" ..
-            LunaUF.db.profile.auraborderType)
+                LunaUF.db.profile.auraborderType)
             button.border:SetTexCoord(0, 1, 0, 1)
             button.border:Show()
         end
@@ -234,7 +234,7 @@ function Auras:OnEnable(frame)
             button.border:Show()
         else
             button.border:SetTexture("Interface\\AddOns\\LunaUnitFrames\\media\\textures\\borders\\border-" ..
-            LunaUF.db.profile.auraborderType)
+                LunaUF.db.profile.auraborderType)
             button.border:SetTexCoord(0, 1, 0, 1)
             button.border:Show()
         end
@@ -317,7 +317,7 @@ function Auras:UpdateFrames(frame)
     local config = LunaUF.db.profile.units[frame.unitGroup].auras
     local buffIndex, untilCancelled, dtype, texture, stacks, timeleft, buffName
     local hasMainHandEnchant, mainHandExpiration, mainHandCharges, hasOffHandEnchant, offHandExpiration, offHandCharges =
-    GetWeaponEnchantInfo()
+        GetWeaponEnchantInfo()
     for i, button in ipairs(frame.auras.buffbuttons.buttons) do
         if i < 33 then
             if frame.unitGroup == "player" then
@@ -329,7 +329,7 @@ function Auras:UpdateFrames(frame)
                 ScanTip:ClearLines()
                 ScanTip:SetPlayerBuff(buffIndex)
                 buffName = LunaAuraScanTipTextLeft1:GetText()
-                if LunaUF.db.units.player.whitelist.enable and not LunaUF.db.units.player.whitelist.list[buffName] then
+                if LunaUF.db.profile.units.player.whitelist.enable and not LunaUF.db.profile.units.player.whitelist.list[buffName] then
                     texture = nil
                 end
             else

@@ -3735,6 +3735,7 @@ function LunaUF:CreateOptionsMenu()
         end
     end)
     getglobal("EnableWhitelist"):SetText(L["Enable"])
+
     LunaOptionsFrame.pages[page].whitelistBuffsInput = CreateFrame("Editbox", "whitelistBuffsInput" .. page,
         LunaOptionsFrame.pages[page], "InputBoxTemplate")
     LunaOptionsFrame.pages[page].whitelistBuffsInput:SetHeight(20)
@@ -3742,7 +3743,7 @@ function LunaUF:CreateOptionsMenu()
     LunaOptionsFrame.pages[page].whitelistBuffsInput:SetAutoFocus(nil)
     LunaOptionsFrame.pages[page].whitelistBuffsInput:SetPoint("TOP", LunaOptionsFrame.pages[page].enableWhitelist,
         "BOTTOM",
-        -125, -20)
+        0, -20)
     LunaOptionsFrame.pages[page].whitelistBuffsInput:SetScript("OnEnterPressed", function()
         this:ClearFocus()
     end)

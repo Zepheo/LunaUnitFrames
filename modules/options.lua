@@ -3741,7 +3741,7 @@ function LunaUF:CreateOptionsMenu()
     LunaOptionsFrame.pages[page].whitelistBuffsInput:SetHeight(20)
     LunaOptionsFrame.pages[page].whitelistBuffsInput:SetWidth(150)
     LunaOptionsFrame.pages[page].whitelistBuffsInput:SetAutoFocus(nil)
-    LunaOptionsFrame.pages[page].whitelistBuffsInput:SetPoint("TOP", LunaOptionsFrame.pages[page].enableWhitelist,
+    LunaOptionsFrame.pages[page].whitelistBuffsInput:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].enableWhitelist,
         "BOTTOM",
         0, -20)
     LunaOptionsFrame.pages[page].whitelistBuffsInput:SetScript("OnEnterPressed", function()

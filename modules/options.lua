@@ -3727,7 +3727,8 @@ function LunaUF:CreateOptionsMenu()
     LunaOptionsFrame.pages[page].enableWhitelist:SetHeight(30)
     LunaOptionsFrame.pages[page].enableWhitelist:SetWidth(30)
     LunaOptionsFrame.pages[page].enableWhitelist:SetScript("OnClick", function()
-        LunaUF.db.profile.units.player.whitelist.enabled = not LunaUF.db.profile.units.player.whitelist.enabled
+        LunaUF.db.profile.units.player.auras.whitelist.enabled = not LunaUF.db.profile.units.player.auras.whitelist
+        .enabled
         for _, frame in pairs(LunaUF.Units.frameList) do
             if frame.unitGroup == "player" then
                 LunaUF.Units:SetupFrameModules(frame)
@@ -3797,7 +3798,8 @@ function LunaUF:CreateOptionsMenu()
     LunaOptionsFrame.pages[page].whitelistBuffsUp:SetHeight(20)
     LunaOptionsFrame.pages[page].whitelistBuffsUp:SetWidth(20)
     LunaOptionsFrame.pages[page].whitelistBuffsUp:SetText("^")
-    LunaOptionsFrame.pages[page].whitelistBuffsUp.config = LunaUF.db.profile.units[LunaUF.unitList[page - 1]].whitelist
+    LunaOptionsFrame.pages[page].whitelistBuffsUp.config = LunaUF.db.profile.units[LunaUF.unitList[page - 1]].auras
+        .whitelist
         .list
     LunaOptionsFrame.pages[page].whitelistBuffsUp:SetScript("OnClick", function()
         local config = this:GetParent().whitelistBuffsBG

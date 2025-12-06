@@ -329,7 +329,7 @@ function Auras:UpdateFrames(frame)
                 ScanTip:ClearLines()
                 ScanTip:SetPlayerBuff(buffIndex)
                 buffName = LunaAuraScanTipTextLeft1:GetText()
-                if LunaUF.db.profile.units.player.whitelist.enable and not LunaUF.db.profile.units.player.whitelist.list[buffName] then
+                if config.whitelist.enable and not config.whitelist.list[buffName] then
                     texture = nil
                 end
             else

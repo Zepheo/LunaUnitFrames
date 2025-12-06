@@ -134,11 +134,6 @@ LunaUF.defaults = {
                 totemBar = { enabled = true, size = 2, hide = true },
                 druidBar = { enabled = true, size = 2 },
                 reckStacks = { enabled = true, size = 1, growth = "RIGHT", hide = true },
-                whitelist = {
-                    enabled = false,
-                    list = {
-                    }
-                },
                 emptyBar = { enabled = false, size = 3 },
                 portrait = { enabled = true, type = "3D", side = "left", size = 6 },
                 auras = {
@@ -163,6 +158,11 @@ LunaUF.defaults = {
                         },
                         debuffs = {
                         },
+                    },
+                    whitelist = {
+                        enabled = false,
+                        list = {
+                        }
                     },
                 },
                 highlight = { enabled = true, ontarget = false, ondebuff = true, onmouse = false, alpha = 0.6 },

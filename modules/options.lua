@@ -3719,7 +3719,7 @@ function LunaUF:CreateOptionsMenu()
     LunaOptionsFrame.pages[page].whitelistHeader:SetTextColor(1, 1, 0)
     LunaOptionsFrame.pages[page].whitelistHeader:SetText(L["Whitelist"])
 
-    LunaOptionsFrame.pages[page].enableWhitelist = CreateFrame("CheckButton", "EnableReckStacks", LunaOptionsFrame.pages
+    LunaOptionsFrame.pages[page].enableWhitelist = CreateFrame("CheckButton", "EnableWhitelist", LunaOptionsFrame.pages
         [page], "UICheckButtonTemplate")
     LunaOptionsFrame.pages[page].enableWhitelist:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].whitelistHeader,
         "BOTTOMLEFT", 0,

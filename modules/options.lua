@@ -3307,11 +3307,6 @@ function LunaUF:CreateOptionsMenu()
         --RefreshAuraWindow(LunaOptionsFrame.pages[i].EmphasizeBuffsBG.controls, LunaOptionsFrame.pages[i].EmphasizeBuffsBG.config, LunaOptionsFrame.pages[i].EmphasizeBuffsBG.slot)
         --RefreshAuraWindow(LunaOptionsFrame.pages[i].EmphasizeDebuffsBG.controls, LunaOptionsFrame.pages[i].EmphasizeDebuffsBG.config, LunaOptionsFrame.pages[i].EmphasizeDebuffsBG.slot)
 
-        LunaOptionsFrame.pages[i].WhitelistDesc = LunaOptionsFrame.pages[i]:CreateFontString(nil, "OVERLAY",
-            "GameFontHighlight")
-        LunaOptionsFrame.pages[i].WhitelistDesc:SetPoint("TOPLEFT", LunaOptionsFrame.pages[i].enablebordercolor,
-            "BOTTOMLEFT", 200, -20)
-        LunaOptionsFrame.pages[i].WhitelistDesc:SetText(L["Whitelist"])
 
         if (LunaUF.unitList[i - 1] == "player") then
             LunaOptionsFrame.pages[i].enableaurastimertext = CreateFrame("CheckButton",
@@ -3711,6 +3706,12 @@ function LunaUF:CreateOptionsMenu()
     LunaOptionsFrame.pages[page].recksizeslider:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].reckheader, "BOTTOMLEFT",
         280, -10)
     LunaOptionsFrame.pages[page].recksizeslider:SetWidth(190)
+
+    LunaOptionsFrame.pages[page].WhitelistDesc = LunaOptionsFrame.pages[page]:CreateFontString(nil, "OVERLAY",
+        "GameFontHighlight")
+    LunaOptionsFrame.pages[page].WhitelistDesc:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].enablebordercolor,
+        "BOTTOMLEFT", 200, -20)
+    LunaOptionsFrame.pages[page].WhitelistDesc:SetText(L["Whitelist"])
 
     local page = 3
     LunaOptionsFrame.pages[page].xpheader = LunaOptionsFrame.pages[page]:CreateFontString(nil, "OVERLAY",

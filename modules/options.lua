@@ -806,6 +806,8 @@ function LunaUF:LoadOptions()
             LunaOptionsFrame.pages[i].enableaurastimerspin:SetChecked(LunaUF.db.profile.units[unit].auras
                 .timerspinenabled)
             LunaOptionsFrame.pages[i].wbuffs:SetChecked(LunaUF.db.profile.units[unit].auras.weaponbuffs)
+            RefreshAuraWindow(LunaOptionsFrame.pages[i].whitelistBuffsBG.controls,
+                LunaOptionsFrame.pages[i].whitelistBuffsBG.config, LunaOptionsFrame.pages[i].whitelistBuffsBG.slot)
         end
         LunaOptionsFrame.pages[i].enabletags:SetChecked(LunaUF.db.profile.units[unit].tags.enabled)
         LunaOptionsFrame.pages[i].tags.load(LunaOptionsFrame.pages[i].tags, LunaUF.db.profile.units[unit].tags.bartags)
@@ -3716,6 +3718,155 @@ function LunaUF:CreateOptionsMenu()
     LunaOptionsFrame.pages[page].whitelistHeader:SetJustifyH("LEFT")
     LunaOptionsFrame.pages[page].whitelistHeader:SetTextColor(1, 1, 0)
     LunaOptionsFrame.pages[page].whitelistHeader:SetText(L["Whitelist"])
+
+    LunaOptionsFrame.pages[page].enableWhitelist = CreateFrame("CheckButton", "EnableReckStacks", LunaOptionsFrame.pages
+        [page], "UICheckButtonTemplate")
+    LunaOptionsFrame.pages[page].enableWhitelist:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].whitelistHeader,
+        "BOTTOMLEFT", 0,
+        -10)
+    LunaOptionsFrame.pages[page].enableWhitelist:SetHeight(30)
+    LunaOptionsFrame.pages[page].enableWhitelist:SetWidth(30)
+    LunaOptionsFrame.pages[page].enableWhitelist:SetScript("OnClick", function()
+        LunaUF.db.profile.units.player.whitelist.enabled = not LunaUF.db.profile.units.player.whitelist.enabled
+        for _, frame in pairs(LunaUF.Units.frameList) do
+            if frame.unitGroup == "player" then
+                LunaUF.Units:SetupFrameModules(frame)
+            end
+        end
+    end)
+    getglobal("EnableWhitelist"):SetText(L["Enable"])
+    LunaOptionsFrame.pages[page].whitelistBuffsInput = CreateFrame("Editbox", "whitelistBuffsInput" .. page,
+        LunaOptionsFrame.pages[page], "InputBoxTemplate")
+    LunaOptionsFrame.pages[page].whitelistBuffsInput:SetHeight(20)
+    LunaOptionsFrame.pages[page].whitelistBuffsInput:SetWidth(150)
+    LunaOptionsFrame.pages[page].whitelistBuffsInput:SetAutoFocus(nil)
+    LunaOptionsFrame.pages[page].whitelistBuffsInput:SetPoint("TOP", LunaOptionsFrame.pages[page].enableWhitelist,
+        "BOTTOM",
+        -125, -20)
+    LunaOptionsFrame.pages[page].whitelistBuffsInput:SetScript("OnEnterPressed", function()
+        this:ClearFocus()
+    end)
+
+    LunaOptionsFrame.pages[page].whitelistBuffsDesc = LunaOptionsFrame.pages[page]:CreateFontString(nil, "OVERLAY",
+        "GameFontHighlightSmall")
+    LunaOptionsFrame.pages[page].whitelistBuffsDesc:SetPoint("BOTTOM", LunaOptionsFrame.pages[page].whitelistBuffsInput,
+        "TOP", 0, 5)
+    LunaOptionsFrame.pages[page].whitelistBuffsDesc:SetText(L["Buffs"])
+
+    LunaOptionsFrame.pages[page].whitelistBuffsAdd = CreateFrame("Button", "EmphasizeBuffsAddButton" .. page,
+        LunaOptionsFrame.pages[page], "UIPanelButtonTemplate")
+    LunaOptionsFrame.pages[page].whitelistBuffsAdd:SetPoint("LEFT", LunaOptionsFrame.pages[page].whitelistBuffsInput,
+        "RIGHT", 0, 0)
+    LunaOptionsFrame.pages[page].whitelistBuffsAdd:SetHeight(20)
+    LunaOptionsFrame.pages[page].whitelistBuffsAdd:SetWidth(50)
+    LunaOptionsFrame.pages[page].whitelistBuffsAdd:SetText(L["Add"])
+    LunaOptionsFrame.pages[page].whitelistBuffsAdd:SetScript("OnClick", function()
+        local parent = this:GetParent()
+        local buffname = parent.whitelistBuffsInput:GetText()
+        if buffname and buffname ~= "" then
+            parent.whitelistBuffsBG.config[buffname] = true
+            parent.whitelistBuffsInput:SetText("")
+            parent.whitelistBuffsInput:ClearFocus()
+            RefreshAuraWindow(parent.whitelistBuffsBG.controls, parent.whitelistBuffsBG.config,
+                parent.whitelistBuffsBG.slot)
+            for _, frame in pairs(LunaUF.Units.frameList) do
+                if frame.unitGroup == parent.id then
+                    LunaUF.Units.FullUpdate(frame)
+                end
+            end
+        end
+    end)
+
+    LunaOptionsFrame.pages[page].whitelistBuffsBG = CreateFrame("Frame", "whitelistBuffsBG", LunaOptionsFrame.pages
+        [page])
+    LunaOptionsFrame.pages[page].whitelistBuffsBG:SetHeight(60)
+    LunaOptionsFrame.pages[page].whitelistBuffsBG:SetWidth(175)
+    LunaOptionsFrame.pages[page].whitelistBuffsBG:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].whitelistBuffsInput,
+        "BOTTOMLEFT", 0, -10)
+    LunaOptionsFrame.pages[page].whitelistBuffsBG:SetBackdrop(LunaUF.constants.backdrop)
+    LunaOptionsFrame.pages[page].whitelistBuffsBG:SetBackdropColor(0, 0, 0, 1)
+    LunaOptionsFrame.pages[page].whitelistBuffsBG.config = LunaUF.db.profile.units[LunaUF.unitList[page - 1]].whitelist
+        .list
+    LunaOptionsFrame.pages[page].whitelistBuffsBG.slot = 1
+
+    LunaOptionsFrame.pages[page].whitelistBuffsUp = CreateFrame("Button", "whitelistBuffsUpButton" .. page,
+        LunaOptionsFrame.pages[page], "UIPanelButtonTemplate")
+    LunaOptionsFrame.pages[page].whitelistBuffsUp:SetPoint("BOTTOMLEFT", LunaOptionsFrame.pages[page].whitelistBuffsBG,
+        "RIGHT", 2, 5)
+    LunaOptionsFrame.pages[page].whitelistBuffsUp:SetHeight(20)
+    LunaOptionsFrame.pages[page].whitelistBuffsUp:SetWidth(20)
+    LunaOptionsFrame.pages[page].whitelistBuffsUp:SetText("^")
+    LunaOptionsFrame.pages[page].whitelistBuffsUp.config = LunaUF.db.profile.units[LunaUF.unitList[page - 1]].whitelist
+        .list
+    LunaOptionsFrame.pages[page].whitelistBuffsUp:SetScript("OnClick", function()
+        local config = this:GetParent().whitelistBuffsBG
+        if config.slot > 1 then
+            config.slot = config.slot - 1
+        end
+        RefreshAuraWindow(config.controls, config.config, config.slot)
+    end)
+
+    LunaOptionsFrame.pages[page].whitelistBuffsDown = CreateFrame("Button", "whitelistBuffsDownButton" .. page,
+        LunaOptionsFrame.pages[page], "UIPanelButtonTemplate")
+    LunaOptionsFrame.pages[page].whitelistBuffsDown:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].whitelistBuffsBG,
+        "RIGHT", 2, -5)
+    LunaOptionsFrame.pages[page].whitelistBuffsDown:SetHeight(20)
+    LunaOptionsFrame.pages[page].whitelistBuffsDown:SetWidth(20)
+    LunaOptionsFrame.pages[page].whitelistBuffsDown:SetText("v")
+    LunaOptionsFrame.pages[page].whitelistBuffsDown.config = LunaUF.db.profile.units[LunaUF.unitList[page - 1]]
+        .whitelist.list
+    LunaOptionsFrame.pages[page].whitelistBuffsDown:SetScript("OnClick", function()
+        local config, k = this:GetParent().whitelistBuffsBG, 0
+        for _ in pairs(config.config) do
+            k = k + 1
+        end
+        if k >= (config.slot + 3) then
+            config.slot = config.slot + 1
+        end
+        RefreshAuraWindow(config.controls, config.config, config.slot)
+    end)
+
+    LunaOptionsFrame.pages[page].whitelistBuffsBG.controls = {}
+    for k = 1, 3 do
+        LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[k] = {}
+        LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[k][1] = LunaOptionsFrame.pages[page].whitelistBuffsBG
+            :CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+        LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[k][1]:SetText("<TESTVALUE>")
+        LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[k][2] = CreateFrame("Button",
+            "whitelistBuffsDeleteButton" .. page .. k, LunaOptionsFrame.pages[page].whitelistBuffsBG,
+            "UIPanelButtonTemplate")
+        LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[k][2]:SetHeight(20)
+        LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[k][2]:SetWidth(20)
+        LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[k][2]:SetText("-")
+        LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[k][2].config = LunaOptionsFrame.pages[page]
+            .whitelistBuffsBG
+        LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[k][2].id = k
+        LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[k][2]:SetScript("OnClick", function()
+            local buffname = this.config.controls[this.id][1]:GetText()
+            local parent = this:GetParent():GetParent()
+            this.config.config[buffname] = nil
+            this.config.slot = 1
+            RefreshAuraWindow(this.config.controls, this.config.config, 1)
+            for _, frame in pairs(LunaUF.Units.frameList) do
+                if frame.unitGroup == parent.id then
+                    LunaUF.Units.FullUpdate(frame)
+                end
+            end
+        end)
+    end
+
+    LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[1][1]:SetPoint("TOPLEFT",
+        LunaOptionsFrame.pages[page].whitelistBuffsBG, "TOPLEFT", 5, -5)
+    LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[1][2]:SetPoint("TOPRIGHT",
+        LunaOptionsFrame.pages[page].whitelistBuffsBG, "TOPRIGHT", 0, 0)
+    LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[2][1]:SetPoint("LEFT",
+        LunaOptionsFrame.pages[page].whitelistBuffsBG, "LEFT", 5, 0)
+    LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[2][2]:SetPoint("RIGHT",
+        LunaOptionsFrame.pages[page].whitelistBuffsBG, "RIGHT", 0, 0)
+    LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[3][1]:SetPoint("BOTTOMLEFT",
+        LunaOptionsFrame.pages[page].whitelistBuffsBG, "BOTTOMLEFT", 5, 5)
+    LunaOptionsFrame.pages[page].whitelistBuffsBG.controls[3][2]:SetPoint("BOTTOMRIGHT",
+        LunaOptionsFrame.pages[page].whitelistBuffsBG, "BOTTOMRIGHT", 0, 0)
 
     local page = 3
     LunaOptionsFrame.pages[page].xpheader = LunaOptionsFrame.pages[page]:CreateFontString(nil, "OVERLAY",

@@ -3709,6 +3709,7 @@ function LunaUF:CreateOptionsMenu()
 
     LunaOptionsFrame.pages[page].WhitelistDesc = LunaOptionsFrame.pages[page]:CreateFontString(nil, "OVERLAY",
         "GameFontHighlight")
+    LunaOptionsFrame.pages[page].WhitelistDesc:setheight(24)
     LunaOptionsFrame.pages[page].WhitelistDesc:SetPoint("TOPLEFT", LunaOptionsFrame.pages[page].recksizeslider,
         "BOTTOMLEFT", 200, -20)
     LunaOptionsFrame.pages[page].WhitelistDesc:SetText(L["Whitelist"])
